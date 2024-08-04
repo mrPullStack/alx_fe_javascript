@@ -18,6 +18,10 @@
     </div>
     <!--Button to export quotes to json-->
     <button onclick="exportToJsonFile()">Export Quotes to JSON</button>
+    
+    <!--input to import quotes from JSON-->
+    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+    
     <script src="script.js"></script>
 </body>
 </html>
