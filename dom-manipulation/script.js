@@ -10,7 +10,7 @@ function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
-function populateCategoryFilter() {
+function populateCategories() {
     const categoryFilter = document.getElementById('categoryFilter');
     categoryFilter.innerHTML = '<option value="all">All Categories</option>'; // Reset options
     const categories = [...new Set(quotes.map(quote => quote.category))];
