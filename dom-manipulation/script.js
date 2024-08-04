@@ -26,7 +26,7 @@ function createAddQuoteForm() {
     `;
 }
 
-// Function to add a new quote
+// function to add a new quote using innerHTML and appendChild
 function addQuote() {
     const newQuoteText = document.getElementById('newQuoteText').value.trim();
     const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
@@ -35,16 +35,25 @@ function addQuote() {
         const newQuote = { text: newQuoteText, category: newQuoteCategory };
         quotes.push(newQuote);
 
-        //optionally, show the new added quote
+        // Create a new paragraph element for the quote text
+        const quoteTextP = document.createElement('p');
+        quoteTextP.textContent = newQuote.text;
+
+        // Create a new paragraph element for the quote category
+        const quoteCategoryP = document.createElement('p');
+        quoteCategoryP.innerHTML = `<em>Category: ${newQuote.category}</em>`;
+
+        // Clear the current quote display and append the new quote elements
         const quoteDisplay = document.getElementById('quoteDisplay');
-        quoteDisplay.innerHTML = `<p>${newQuote.text}</p><p><em>Category: ${newQuote.category}</em></p>`;
-        
-        //clear input fields
+        quoteDisplay.innerHTML = ''; // Clear the current quote
+        quoteDisplay.appendChild(quoteTextP);
+        quoteDisplay.appendChild(quoteCategoryP);
+
+        // Clear input fields
         document.getElementById('newQuoteText').value = '';
         document.getElementById('newQuoteCategory').value = '';
-        alert('Quote added successfully!');
     } else {
-        alert('Please enter both a quote and a category.');
+        alert("Please enter both a quote and a category.");
     }
 }
 
