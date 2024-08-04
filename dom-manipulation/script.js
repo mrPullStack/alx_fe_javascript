@@ -52,5 +52,7 @@ function addQuote() {
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 
 // initial quote display
-showRandomQuote();
-
+document.addEventListener('DOMContentLoaded', () => {
+    createAddQuoteForm();
+    showRandomQuote();
+});
