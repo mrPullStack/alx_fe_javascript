@@ -41,6 +41,17 @@ function displayQuotes(quotesToDisplay) {
     });
 }
 
+// Show a random quote
+function showRandomQuote() {
+    if (quotes.length > 0) {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const randomQuote = quotes[randomIndex];
+        alert(`"${randomQuote.text}" - ${randomQuote.category}`);
+    } else {
+        alert('No quotes available.');
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const savedCategory = localStorage.getItem('selectedCategory') || 'all';
     document.getElementById('categoryFilter').value = savedCategory;
