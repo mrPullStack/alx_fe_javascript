@@ -181,7 +181,7 @@ function importFromJsonFile(event) {
     fileReader.readAsText(event.target.files[0]);
 }
 
-//fucntion to fetch quotes form the server
+//function to fetch quotes form the server
 async function fetchQuotesFromServer(params) {
     try {
         const response = await fetch(serverURL);
@@ -194,6 +194,23 @@ async function fetchQuotesFromServer(params) {
         }
     } catch (error) {
         console.error('Error fetching quotes from the server:', error);
+    }
+}
+
+// function to post a new quote to the server
+async function postQuoteToServer(quote) {
+    try {
+        const response = await fetch(serverURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(quote),
+    });
+    const newQuote = await response.json();
+    console.log('Quote posted to server:', newQuote);
+    } catch (error) {
+        console.error('Error posting quote to the server:', error);
     }
 }
 
