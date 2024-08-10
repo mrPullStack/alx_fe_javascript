@@ -214,6 +214,15 @@ async function postQuoteToServer(quote) {
     }
 }
 
+// fucntion to resolve conflicts (server data takes precedence)
+fucntion resolveConflicts(localQuotes, serverQuotes){
+    const resolvedQuotes = serverQuotes.map(sq => {
+        const conflictingLocalQuote = localQuotes.find(lq => lq.text === sq.text && lq.category === sq.category);
+        return conflictingLocalQuote ? sq : conflictingLocalQuote;
+    });
+    return resolvedQuotes;
+}
+
 // Event listener to show a random quote when the button is clicked
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 
