@@ -1,14 +1,19 @@
+// Mock server URL
+const serverURL = 'https://jsonplaceholder.typicode.com/posts';
+
 // Array to store quotes
-let quotes = [
+let quotes = JSON.parse(localStorage.getItem('quotes'))[
     { text: "The best way to predict the future is to invent it.", category: "Inspiration" },
     { text: "Life is 10% what happens to us and 90% how we react to it.", category: "Motivation" },
     { text: "Your time is limited, so don't waste it living someone else's life.", category: "Life" }
 ];
 
+// function to save quotes to local storage
 function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
+// function to populate category filter dynamically
 function populateCategoryFilter() {
     const categoryFilter = document.getElementById('categoryFilter');
     categoryFilter.innerHTML = '<option value="all">All Categories</option>'; // Reset options
@@ -22,6 +27,7 @@ function populateCategoryFilter() {
     });
 }
 
+// fucntion to filter quotes based on the selected category
 function filterQuotes() {
     const selectedCategory = document.getElementById('categoryFilter').value;
     const filteredQuotes = quotes.filter(quote => selectedCategory === 'all' || quote.category === selectedCategory);
@@ -30,6 +36,7 @@ function filterQuotes() {
     localStorage.setItem('selectedCategory', selectedCategory);
 }
 
+// fucntion to display quotes
 function displayQuotes(quotesToDisplay) {
     const quoteDisplay = document.getElementById('quoteDisplay');
     quoteDisplay.innerHTML = '';
@@ -47,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     filterQuotes();
 });
 
+// function to add a new quote
 function addQuote() {
     const newQuoteText = document.getElementById('newQuoteText').value.trim();
     const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
@@ -173,6 +181,22 @@ function importFromJsonFile(event) {
     fileReader.readAsText(event.target.files[0]);
 }
 
+//fucntion to fetch quotes form the server
+async function fetchQuotesFromServer(params) {
+    try {
+        const response = await fetch(serverURL);
+        const serverQuotes = await response.json();
+        const newQuotes = serverQuotes.filter(sq => !quotes.some(lq => lq.text === sq.text && lq.category === sq.category));
+        if (newQuotes.length > 0) {
+            quotes.push(...newQuotes);
+            saveQuotes();
+            console.log('New quotes fetched and saved locally:', newQuotes);
+        }
+    } catch (error) {
+        console.error('Error fetching quotes from the server:', error);
+    }
+}
+
 // Event listener to show a random quote when the button is clicked
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 
@@ -180,6 +204,8 @@ document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 document.addEventListener('DOMContentLoaded', () => {
     loadQuotes();
     createAddQuoteForm();
+    populateCategoryFilter();
+    filterQuotes();
     showRandomQuote();
 
     // Load the last viewed quote from session storage if available
