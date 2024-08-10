@@ -230,7 +230,7 @@ async function syncQuotes() {
     if (JSON.stringify(resolvedQuotes) !== JSON.stringify(quotes)) {
         quotes = resolvedQuotes;
         saveQuotes();
-        notifyUser('Quotes have been synced and conflicts resolved.');
+        notifyUser('Quotes synced with server!');
     }
 }
 
