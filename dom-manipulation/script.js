@@ -215,12 +215,23 @@ async function postQuoteToServer(quote) {
 }
 
 // fucntion to resolve conflicts (server data takes precedence)
-fucntion resolveConflicts(localQuotes, serverQuotes){
+function resolveConflicts(localQuotes, serverQuotes) {
     const resolvedQuotes = serverQuotes.map(sq => {
         const conflictingLocalQuote = localQuotes.find(lq => lq.text === sq.text && lq.category === sq.category);
         return conflictingLocalQuote ? sq : conflictingLocalQuote;
     });
     return resolvedQuotes;
+}
+
+// function to sync with the server and handle conflicts
+async function syncWithServer() {
+    const serverQuotes = await fetchQuotesFromServer();
+    const resolvedQuotes = resolveConflicts(quotes, serverQuotes);
+    if (JSON.stringify(resolvedQuotes) !== JSON.stringify(quotes)) {
+        quotes = resolvedQuotes;
+        saveQuotes();
+        notifyUser('Quotes have been synced and conflicts resolved.');
+    }
 }
 
 // Event listener to show a random quote when the button is clicked
