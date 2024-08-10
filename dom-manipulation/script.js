@@ -224,7 +224,7 @@ function resolveConflicts(localQuotes, serverQuotes) {
 }
 
 // function to sync with the server and handle conflicts
-async function syncWithServer() {
+async function syncQuotes() {
     const serverQuotes = await fetchQuotesFromServer();
     const resolvedQuotes = resolveConflicts(quotes, serverQuotes);
     if (JSON.stringify(resolvedQuotes) !== JSON.stringify(quotes)) {
@@ -235,7 +235,7 @@ async function syncWithServer() {
 }
 
 // periodically sync with the server (e.g., every 5 minutes)
-setInterval(syncWithServer, 300000); // 5 minutes
+setInterval(syncQuotes, 300000); // 5 minutes
 
 // function to notify users about updates or conflict resolution
 function notifyUser(message) {
