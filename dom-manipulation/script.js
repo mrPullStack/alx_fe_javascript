@@ -234,6 +234,20 @@ async function syncWithServer() {
     }
 }
 
+// periodically sync with the server (e.g., every 5 minutes)
+setInterval(syncWithServer, 300000); // 5 minutes
+
+// function to notify users about updates or conflict resolution
+function notifyUser(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+        document.body.removeChild(notification);
+    }, 3000); // Show notification for 3 seconds
+}
+
 // Event listener to show a random quote when the button is clicked
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 
